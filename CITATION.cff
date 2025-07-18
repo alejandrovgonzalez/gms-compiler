@@ -1,0 +1,32 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: >-
+  Optimization and Synthesis of Quantum Circuits with Global
+  Gates
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Alejandro
+    family-names: Villoria
+    email: a.d.villoria.gonzalez@liacs.leidenuniv.nl
+    affiliation: Leiden University
+    orcid: 'https://orcid.org/0000-0003-0787-2568'
+  - given-names: Henning
+    family-names: Basold
+    email: h.basold@liacs.leidenuniv.nl
+    affiliation: Leiden University
+    orcid: 'https://orcid.org/0000-0001-7610-8331'
+  - given-names: Alfons
+    family-names: Laarman
+    email: a.w.laarman@liacs.leidenuniv.nl
+    affiliation: Leiden University
+    orcid: 'https://orcid.org/0000-0002-2433-4174'
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.16027427
+repository-code: 'https://github.com/alejandrovgonzalez/gms-compiler'
+license: MIT
