@@ -321,10 +321,6 @@ def calculate_circuit_runtime(path: str):
                         qreg[reg][q] = t_after_rxx
                 qreg[name1][q1] += GATE_TIMES['R']*3 #Control conjugated by hadamards plus Rx
                 qreg[name2][q2] += GATE_TIMES['R']  # Rx in target
-            else:
-                if not inst.startswith('swap'):
-                    print(inst)
-                    raise ValueError("Unknown quantum gate")
     final_time = float("{:.1f}".format(max(max(reg.values()) for reg in qreg.values())/1000 )) #in milliseconds
     return final_time, sqg, tqg
 

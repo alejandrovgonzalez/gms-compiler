@@ -7,7 +7,11 @@ def create_LP(B: list[list[int]]) -> Dict:
     """
     rows_B = len(B)
     cols_B = len(B[0])
-    m = Model(solver_name=GRB)
+    try:
+        m = Model(solver_name=GRB)
+    except FileNotFoundError:
+        #Can't find Gurobi, use another solver
+        m = Model(solver_name=CBC)
 
     # Variable definitions
     x = [[m.add_var('x_{},{}'.format(i, j), var_type=BINARY) for j in range(cols_B)] for i in range(rows_B)] # Encodes simplified input matrix

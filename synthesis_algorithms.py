@@ -15,6 +15,7 @@ from benchmark_utils import (HCNOTH, Global_gate_handler, save_recompiled,
                              load_circuit, remove_meas_and_barriers,
                              save_time_comparisons)
 from qiskit_synthesis import compile_qiskit
+from second_naive import compile_second_naive, save_time_second_naive
 from natsort import natsorted
 
 def simplify_sqgs(c: Circuit):
@@ -297,7 +298,7 @@ def frontier_to_cnots(m2: Mat2):
     return cnots
 
 def extract_peephole_only(g: BaseGraph[VT, ET], optimize_czs = False, optimize_cnots: int = 2,
-        up_to_perm: bool = False, quiet: bool = True) -> Circuit:
+        up_to_perm: bool = False, quiet: bool = True):
     gadgets = {}
     inputs = g.inputs()
     outputs = g.outputs()
@@ -378,7 +379,7 @@ def extract_peephole_only(g: BaseGraph[VT, ET], optimize_czs = False, optimize_c
     return result_circuit, global_gates, cz_globals
 
 def extract_peephole_ILP(g: BaseGraph[VT, ET], optimize_czs = False,
-        up_to_perm: bool = False, quiet: bool = True) -> Circuit:
+        up_to_perm: bool = False, quiet: bool = True):
     gadgets = {}
     inputs = g.inputs()
     outputs = g.outputs()
@@ -568,10 +569,24 @@ def run_benchmarks(path_mqt, path_qasmbench, path_chemistry, out_path):
     out = os.path.join(out_path,'chemistry','chemistry_comparisons.csv')
     save_time_comparisons(original, ilp, peephole, qiskit, out)
 
+def run_second_naive_algorithm(path_mqt, path_qasmbench, path_chemistry, out_path):
+    
+    compile_second_naive(path_qasmbench, os.path.join(out_path, 'qbench', 'naive2'))
+    compile_second_naive(path_mqt, os.path.join(out_path, 'mqt', 'naive2'))
+    compile_second_naive(path_chemistry, os.path.join(out_path, 'chemistry', 'naive2'))
+    
+    save_time_second_naive(path_qasmbench, os.path.join(out_path, 'qbench', 'naive2'), os.path.join(out_path, 'qbench', 'qbench_comparisons.csv'))
+    save_time_second_naive(path_mqt, os.path.join(out_path, 'mqt', 'naive2'), os.path.join(out_path, 'mqt', 'mqt_comparisons.csv'))
+    save_time_second_naive(path_chemistry, os.path.join(out_path, 'chemistry', 'naive2'), os.path.join(out_path, 'chemistry', 'chemistry_comparisons.csv'))
+
 if __name__ == '__main__':
 
     path_mqt = "path/to/mqt_circuits"
     path_chemistry = "path/to/chemistry_circuits"
     path_qasmbench = "path/to/qasmbench_circuits"
     out_path = "path/to/output"
-    run_benchmarks(path_mqt, path_qasmbench, path_chemistry, out_path)
+    #To run the original benchmarks, uncomment line below. Change your paths to point to the quantum circuits accordingly.
+    #run_benchmarks(path_mqt, path_qasmbench, path_chemistry, out_path)
+
+    #Later we developed a second naive algorithm to compare with. Uncomment below to run.
+    #run_second_naive_algorithm(path_mqt, path_qasmbench, path_chemistry, out_path)
